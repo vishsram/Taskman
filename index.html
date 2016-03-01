@@ -1,0 +1,76 @@
+<DOCTYPE html>
+<html>
+<body>
+<script>
+var myVar;
+//var request = require('request');
+var xmlhttp = new XMLHttpRequest();
+var url = "http://40.78.17.94:4545/taskman/text/meminfo";
+
+/*var options = {
+       url: 'http://40.78.17.94:4545/taskman/text/meminfo',
+               method: 'GET',
+                  timeout: 1000,
+                  headers: {
+                             'Content-Type': 'application/json',
+                                  //  'Connection': 'keep-alive'
+                  }
+
+};*/
+function myFunction() {
+  myVar = setInterval(getdata, 1000);
+
+}
+
+function getdata() {
+  //alert("Hello!");
+        xmlhttp.onreadystatechange = function() { 
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                    callback(xmlhttp);
+            }
+            xmlhttp.open("GET", url, true); // true for asynchronous 
+                xmlhttp.send(null);
+
+
+}
+
+function callback(xmlhttp) {
+       //console.log(xmlhttp.responseText);
+     document.write(xmlhttp.responseText);
+    //window.alert(xmlhttp.responseText);
+    //alert("hello");
+     var json = JSON.parse(xmlhttp.responseText);
+     var data = json.meminfo.Active;
+     alert(JSON.strigify(data)); 
+}
+
+
+myFunction();
+
+/*function callback(error, response, body) {
+    if (!error) {
+                 var data = JSON.parse(body);
+                          console.log ("Data from server:" + JSON.stringify(data));
+    }
+    else {
+                console.log('Error happened: '+ error);
+    }
+        getRequest();
+
+} 
+
+function getRequest() {
+        request(options, callback);
+
+}*/
+
+// Initialize GET request
+//getRequest();
+
+//alertFunc();
+</script>
+
+
+</body>
+</html>
+

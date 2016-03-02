@@ -23,12 +23,7 @@ var server = app.listen(4545, function () {
 
 })
 
-// Call Exec Function
-//function callExec (cmd, function(err, output) {
-//    if (!err) {
 
-//    }
-//})
 
 // GET request
 app.get('/taskman/text/:info', function (req, res) {
@@ -37,15 +32,28 @@ app.get('/taskman/text/:info', function (req, res) {
    var version = shell.exec('luajit json-util.lua ' + req.params.info, function(status, output) {
     console.log('Exit status:', status);
     res.send(JSON.parse(output));
-   }
-
-)
+   })
 })
 
-app.get('/memgraph',function(req,res){
-      res.sendFile(path.join(__dirname+'/index.html'));
-        //__dirname : It will resolve to your project folder.
-      //
+app.get('/taskman/graph/:proc',function (req, res) {
+    var options = {
+        root: __dirname,
+        file: req.params.proc,
+        headers: {
+            'x-timestamp': Date.now(),
+            'x-sent': true
+        }
+    };
+
+    res.sendFile('index.html', options, function (err) {
+        if (err) {
+            console.log(err);
+            res.status(err.status).end();
+        }
+        else {
+             console.log('sent!');
+        }
+    });
 });
 
 
